@@ -15,4 +15,31 @@ html,body {
   box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   width: 900px;   /* visible size (keep these consistent with canvas attributes) */
   height: 500px;
+
+  position: relative;   /* needed for the pseudo-element positioning */
+  overflow: hidden;     /* clip watermark if it overflows */
+}
+
+/* watermark */
+#game::before {
+  content: "cha";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg); /* center + rotate */
+  font-size: 180px;       /* adjust to taste */
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.06); /* low opacity for subtle watermark */
+  pointer-events: none;   /* don't block mouse events */
+  white-space: nowrap;
+  z-index: 0;             /* keep behind interactive content */
+  mix-blend-mode: multiply; /* optional — try overlay, screen, or remove if unwanted */
+}
+
+/* ensure your canvas or other game content is above the watermark */
+#game > canvas,
+#game > * {
+  position: relative;
+  z-index: 1;
 }
